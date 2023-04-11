@@ -12,11 +12,6 @@ class _TelaPrincipalState extends State<TelaPrincipal> {
         style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.w700));
   }
 
- /* Widget _subtitulo() {
-    return Text("",
-        style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w500));
-  }*/
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

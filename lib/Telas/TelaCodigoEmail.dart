@@ -1,20 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
-class TelaRedefinirSenha extends StatefulWidget {
+class TelaCodigoEmail extends StatefulWidget {
 
   @override
-  _TelaRedefinirSenhaState createState() => _TelaRedefinirSenhaState();
+  _TelaCodigoEmailState createState() => _TelaCodigoEmailState();
 }
 
-class _TelaRedefinirSenhaState extends State<TelaRedefinirSenha> {
-  final strEmail = TextEditingController();
+class _TelaCodigoEmailState extends State<TelaCodigoEmail> {
+  final strCodigo = TextEditingController();
+  final strNewPassword = TextEditingController();
 
-  Widget _emailtxt() {
+  Widget _codigotxt() {
     return TextFormField(
-      controller: strEmail,
+      controller: strCodigo,
       decoration: InputDecoration(
-          hintText: "EMAIL",
+          hintText: "CÓDIGO",
+          hintStyle: TextStyle(
+            color: Colors.green,
+            fontSize: 18.0,
+          )),
+    );
+  }
+
+  Widget _senhanovatxt() {
+    return TextFormField(
+      controller: strNewPassword,
+      decoration: InputDecoration(
+          hintText: "NOVA SENHA",
           hintStyle: TextStyle(
             color: Colors.green,
             fontSize: 18.0,
@@ -25,9 +38,9 @@ class _TelaRedefinirSenhaState extends State<TelaRedefinirSenha> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Redefinir senha'),
-        ),
+      appBar: AppBar(
+        title: Text('Redefinir senha'),
+      ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
         child: Form(
@@ -40,7 +53,18 @@ class _TelaRedefinirSenhaState extends State<TelaRedefinirSenha> {
                   padding: EdgeInsets.all(20.0),
                   child: Column(
                     children: <Widget>[
-                      _emailtxt(),
+                      _codigotxt(),
+                    ],
+                  ),
+                ),
+              ),
+              Card(
+                elevation: 12.0,
+                child: Padding(
+                  padding: EdgeInsets.all(20.0),
+                  child: Column(
+                    children: <Widget>[
+                      _senhanovatxt(),
                     ],
                   ),
                 ),
@@ -49,7 +73,7 @@ class _TelaRedefinirSenhaState extends State<TelaRedefinirSenha> {
                 height: 16.0,
               ),
               ElevatedButton(
-                  child: Text('ENVIAR'),
+                  child: Text('REDEFINIR'),
                   onPressed: () {
                     Navigator.pushNamed(context, '/codigo');
                   }
@@ -59,13 +83,5 @@ class _TelaRedefinirSenhaState extends State<TelaRedefinirSenha> {
         ),
       ),
     );
-  }
-  _sendCode(BuildContext context) async {
-    /* var usuario =
-    await SerializaLogin.serializarJson(strName.text, strPassword.text);
-    if(usuario == null || usuario.Mensagem != 'Login efetuado com sucesso!') {
-      alert(context, "Usuário e/ou Senha Inválidos!");
-    }
-    */
   }
 }

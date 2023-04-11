@@ -15,7 +15,7 @@ class _TelaLoginState extends State<TelaLogin> {
     return TextFormField(
       controller: strName,
       decoration: InputDecoration(
-          hintText: "USUÁRIO",
+          hintText: "EMAIL",
           hintStyle: TextStyle(
             color: Colors.green,
             fontSize: 18.0,
@@ -39,7 +39,7 @@ class _TelaLoginState extends State<TelaLogin> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 500.0),
+          padding: EdgeInsets.all(16.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -48,11 +48,7 @@ class _TelaLoginState extends State<TelaLogin> {
                 height: 160.0,
                 width: 160.0,
               ),
-
               */
-              SizedBox(
-                height: 20.0,
-              ),
               Card(
                 elevation: 12.0,
                 child: Padding(
@@ -69,12 +65,13 @@ class _TelaLoginState extends State<TelaLogin> {
                 ),
               ),
               SizedBox(
-                height: 30.0,
+                height: 16.0,
               ),
               ElevatedButton(
                   child: Text('CONECTAR'),
                   onPressed: () {
                     _clickButton(context);
+                    Navigator.pushNamed(context, '/TelaAddRefeicao');
                   }),
               Divider(
                 height: 20.0,
@@ -113,12 +110,10 @@ class _TelaLoginState extends State<TelaLogin> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   GestureDetector(
-                   /* onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (BuildContext context) => TelaRedefinir()));
+                    onTap: () {
+                      Navigator.pushNamed(context, '/redefinir');
                     },
 
-                    */
                     child: Text(
                       "Esqueceu sua senha?",
                       style: TextStyle(
@@ -132,7 +127,8 @@ class _TelaLoginState extends State<TelaLogin> {
               )
             ],
           ),
-        ));
+        )
+    );
   }
 
   _clickButton(BuildContext context) async {
