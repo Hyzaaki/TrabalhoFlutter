@@ -71,7 +71,7 @@ class _TelaLoginState extends State<TelaLogin> {
                   child: Text('CONECTAR'),
                   onPressed: () {
                     _clickButton(context);
-                    Navigator.pushNamed(context, '/TelaAddRefeicao');
+                    Navigator.pushNamed(context, '/TelaInicial');
                   }),
               Divider(
                 height: 20.0,

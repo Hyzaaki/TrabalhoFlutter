@@ -75,7 +75,7 @@ class _TelaCodigoEmailState extends State<TelaCodigoEmail> {
               ElevatedButton(
                   child: Text('REDEFINIR'),
                   onPressed: () {
-                    Navigator.pushNamed(context, '/codigo');
+                    Navigator.pushNamed(context, '/login');
                   }
               ),
             ],

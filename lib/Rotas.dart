@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'Telas/TelaAddRefeicao.dart';
 import 'Telas/TelaCadastro.dart';
 import 'Telas/TelaCodigoEmail.dart';
+import 'Telas/TelaInicial.dart';
 import 'Telas/TelaLogin.dart';
 import 'Telas/TelaPrincipal.dart';
 import 'Telas/TelaRedefinir.dart';
@@ -20,10 +21,8 @@ class Rotas {
         return MaterialPageRoute(builder: (_) => TelaRedefinirSenha());
       case '/codigo':
         return MaterialPageRoute(builder: (_) => TelaCodigoEmail());
-    /*case '/TelaInicial':
+    case '/TelaInicial':
         return MaterialPageRoute(builder: (_) => TelaInicial());
-
-     */
       case '/TelaAddRefeicao':
         return MaterialPageRoute(builder: (_) => TelaAddRefeicao());
     /*case '/TelaEditRefeicao':
