@@ -8,6 +8,7 @@ class TelaInicial extends StatefulWidget {
 }
 
 class _TelaInicialState extends State<TelaInicial> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,7 +39,7 @@ class _TelaInicialState extends State<TelaInicial> {
               ),
             ],
           )
-        )
+        ),
     );
   }
 }
