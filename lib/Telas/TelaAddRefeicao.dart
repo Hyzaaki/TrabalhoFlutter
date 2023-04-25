@@ -35,16 +35,29 @@ class _TelaAddRefeicaoState extends State<TelaAddRefeicao> {
     );
   }
   Widget _quantidadealimentotxt() {
-    return TextFormField(
-      controller: strQuantidadeAlimento,
-      decoration: InputDecoration(
+    return
+      TextFormField(
+        controller: strQuantidadeAlimento,
+        decoration: InputDecoration(
           hintText: "QUANTIDADE:",
           hintStyle: TextStyle(
             color: Colors.green,
             fontSize: 18.0,
           )),
-    );
+      );
   }
+
+  Widget _iconcamera() {
+    return
+      ElevatedButton(
+        child: Icon(Icons.add_a_photo),
+          onPressed: () {
+            _openCamera(context);
+          }
+      );
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -84,13 +97,24 @@ class _TelaAddRefeicaoState extends State<TelaAddRefeicao> {
                 elevation: 12.0,
                 child: Padding(
                   padding: EdgeInsets.all(20.0),
-                  child: Column(
+                  child:
+                  Column(
                     children: <Widget>[
                       _quantidadealimentotxt(),
+                      SizedBox(
+                        height: 16.0,
+                      ),
+                      Row(
+                        children: <Widget>[
+                          _iconcamera(),
+                        ]
+                      )
                     ],
                   ),
+
                 ),
               ),
+              // Icon(Icons.add_a_photo),
               SizedBox(
                 height: 16.0,
               ),
@@ -106,6 +130,14 @@ class _TelaAddRefeicaoState extends State<TelaAddRefeicao> {
     );
   }
   _saveRefeicao(BuildContext context) async {
+    /* var usuario =
+    await SerializaLogin.serializarJson(strName.text, strPassword.text);
+    if(usuario == null || usuario.Mensagem != 'Login efetuado com sucesso!') {
+      alert(context, "Usuário e/ou Senha Inválidos!");
+    }
+    */
+  }
+  _openCamera(BuildContext context) async {
     /* var usuario =
     await SerializaLogin.serializarJson(strName.text, strPassword.text);
     if(usuario == null || usuario.Mensagem != 'Login efetuado com sucesso!') {

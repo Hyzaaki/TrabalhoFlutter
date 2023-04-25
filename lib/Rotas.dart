@@ -27,10 +27,11 @@ class Rotas {
         return MaterialPageRoute(builder: (_) => TelaInicial());
       case '/TelaAddRefeicao':
         return MaterialPageRoute(builder: (_) => TelaAddRefeicao());
-      case '/TelaMenu':
-        return MaterialPageRoute(builder: (_) => TelaMenu());
       case '/TelaUsuario':
         return MaterialPageRoute(builder: (_) => TelaUsuario());
+      case '/TelaMenu':
+        return MaterialPageRoute(builder: (_) => TelaMenu());
+
     /*case '/TelaEditRefeicao':
         return MaterialPageRoute(builder: (_) => TelaEditRefeicao());
        */

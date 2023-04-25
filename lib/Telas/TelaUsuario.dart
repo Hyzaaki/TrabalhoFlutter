@@ -64,7 +64,7 @@ class _TelaUsuarioState extends State<TelaUsuario> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Cadastro'),
+        title: Text('Minha conta'),
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
