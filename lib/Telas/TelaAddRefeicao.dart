@@ -10,7 +10,9 @@ class TelaAddRefeicao extends StatefulWidget {
 class _TelaAddRefeicaoState extends State<TelaAddRefeicao> {
   final strNomeNumeroRefeicao = TextEditingController();
   final strNomeAlimento = TextEditingController();
-  final strQuantidadeAlimento = TextEditingController();
+  final strCarboAlimento = TextEditingController();
+  final strProteinaAlimento = TextEditingController();
+  final strGorduraAlimento = TextEditingController();
 
   Widget _nomenumerorefeicaotxt() {
     return TextFormField(
@@ -27,23 +29,49 @@ class _TelaAddRefeicaoState extends State<TelaAddRefeicao> {
     return TextFormField(
       controller: strNomeAlimento,
       decoration: InputDecoration(
-          hintText: "ALIMENTO:",
+          hintText: "Alimento:",
           hintStyle: TextStyle(
             color: Colors.green,
             fontSize: 18.0,
           )),
     );
   }
-  Widget _quantidadealimentotxt() {
+  Widget _carboalimentotxt() {
     return
       TextFormField(
-        controller: strQuantidadeAlimento,
+        controller: strCarboAlimento,
         decoration: InputDecoration(
-          hintText: "QUANTIDADE:",
+          hintText: "Carboidratos:",
           hintStyle: TextStyle(
             color: Colors.green,
             fontSize: 18.0,
           )),
+      );
+  }
+
+  Widget _proteinaalimentotxt() {
+    return
+      TextFormField(
+        controller: strProteinaAlimento,
+        decoration: InputDecoration(
+            hintText: "Proteínas:",
+            hintStyle: TextStyle(
+              color: Colors.green,
+              fontSize: 18.0,
+            )),
+      );
+  }
+
+  Widget _gorduralimentotxt() {
+    return
+      TextFormField(
+        controller: strGorduraAlimento,
+        decoration: InputDecoration(
+            hintText: "Gordura:",
+            hintStyle: TextStyle(
+              color: Colors.green,
+              fontSize: 18.0,
+            )),
       );
   }
 
@@ -57,7 +85,15 @@ class _TelaAddRefeicaoState extends State<TelaAddRefeicao> {
       );
   }
 
-
+  Widget _addalimento() {
+    return
+      ElevatedButton(
+          child: Icon(Icons.add_circle),
+          onPressed: () {
+            _openCamera(context);
+          }
+      );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -86,21 +122,22 @@ class _TelaAddRefeicaoState extends State<TelaAddRefeicao> {
                 elevation: 12.0,
                 child: Padding(
                   padding: EdgeInsets.all(20.0),
-                  child: Column(
-                    children: <Widget>[
-                      _nomealimentotxt(),
-                    ],
-                  ),
-                ),
-              ),
-              Card(
-                elevation: 12.0,
-                child: Padding(
-                  padding: EdgeInsets.all(20.0),
                   child:
                   Column(
                     children: <Widget>[
-                      _quantidadealimentotxt(),
+                      _nomealimentotxt(),
+                      SizedBox(
+                        height: 12.0,
+                      ),
+                      _carboalimentotxt(),
+                      SizedBox(
+                        height: 12.0,
+                      ),
+                      _proteinaalimentotxt(),
+                      SizedBox(
+                        height: 12.0,
+                      ),
+                      _gorduralimentotxt(),
                       SizedBox(
                         height: 16.0,
                       ),
@@ -114,7 +151,17 @@ class _TelaAddRefeicaoState extends State<TelaAddRefeicao> {
 
                 ),
               ),
-              // Icon(Icons.add_a_photo),
+              SizedBox(
+                height: 12.0,
+              ),
+              Padding(
+                  padding: EdgeInsets.only(left: 8.0),
+                  child: Row(
+                    children: <Widget>[
+                      _addalimento(),
+                    ],
+                  ),
+                ),
               SizedBox(
                 height: 16.0,
               ),
