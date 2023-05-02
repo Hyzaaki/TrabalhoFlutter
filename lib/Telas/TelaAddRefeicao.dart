@@ -13,6 +13,8 @@ class _TelaAddRefeicaoState extends State<TelaAddRefeicao> {
   final strCarboAlimento = TextEditingController();
   final strProteinaAlimento = TextEditingController();
   final strGorduraAlimento = TextEditingController();
+  List<Widget> textFormFields = [];
+
 
   Widget _nomenumerorefeicaotxt() {
     return TextFormField(
@@ -73,6 +75,7 @@ class _TelaAddRefeicaoState extends State<TelaAddRefeicao> {
               fontSize: 18.0,
             )),
       );
+
   }
 
   Widget _iconcamera() {
@@ -85,13 +88,62 @@ class _TelaAddRefeicaoState extends State<TelaAddRefeicao> {
       );
   }
 
+  Widget _cardAddAlimento() {
+    return
+      Card(
+        elevation: 12.0,
+        child: Padding(
+          padding: EdgeInsets.all(20.0),
+          child:
+          Column(
+            children: <Widget>[
+              _nomealimentotxt(),
+              SizedBox(
+                height: 12.0,
+              ),
+              _carboalimentotxt(),
+              SizedBox(
+                height: 12.0,
+              ),
+              _proteinaalimentotxt(),
+              SizedBox(
+                height: 12.0,
+              ),
+              _gorduralimentotxt(),
+              SizedBox(
+                height: 16.0,
+              ),
+              Row(
+                  children: <Widget>[
+                    _iconcamera(),
+                  ]
+              )
+            ],
+          ),
+        ),
+      );
+  }
+
   Widget _addalimento() {
     return
       ElevatedButton(
           child: Icon(Icons.add_circle),
-          onPressed: () {
-            _openCamera(context);
-          }
+        onPressed: () {
+          // Adiciona um novo TextFormField à lista
+          setState(() {
+            textFormFields.add(_cardAddAlimento());
+          });
+        },
+      );
+  }
+
+  Widget _salvarRefeicao() {
+    return
+      ElevatedButton(
+        child: Text('Salvar'),
+        onPressed: () {
+          _saveRefeicao(context);
+        },
       );
   }
 
@@ -103,9 +155,7 @@ class _TelaAddRefeicaoState extends State<TelaAddRefeicao> {
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
-        child: Form(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
+          child: ListView(
             children: <Widget>[
               Card(
                 elevation: 12.0,
@@ -148,8 +198,10 @@ class _TelaAddRefeicaoState extends State<TelaAddRefeicao> {
                       )
                     ],
                   ),
-
                 ),
+              ),
+              Column(
+                children: textFormFields,
               ),
               SizedBox(
                 height: 12.0,
@@ -165,15 +217,20 @@ class _TelaAddRefeicaoState extends State<TelaAddRefeicao> {
               SizedBox(
                 height: 16.0,
               ),
-              ElevatedButton(
-                  child: Text('SALVAR'),
-                  onPressed: () {
-                    _saveRefeicao(context);
-                  }),
+              Padding(
+                padding: EdgeInsets.only(left: 8.0),
+                child: Column(
+                  children: <Widget>[
+                    _salvarRefeicao(),
+                  ],
+                ),
+              )
+
             ],
+
           ),
-        ),
       ),
+
     );
   }
   _saveRefeicao(BuildContext context) async {
