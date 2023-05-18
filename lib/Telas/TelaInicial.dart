@@ -38,8 +38,8 @@ class _TelaInicialState extends State<TelaInicial> {
                                 ],
                               ),
                               child: ListTile(
-                                  title: Text('Aqui fica o nome da refeicao'),
-                                  subtitle: Text('pode ter algo aqui ou nao fodas'),
+                                  title: Text('Nome da refeicao'),
+                                  subtitle: Text('Quantidade das calorias'),
                                   trailing: InkWell(
                                       onTap: () => true,
                                       child: const Icon(Icons.remove, color: Colors.red)
