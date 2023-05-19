@@ -1,5 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+
+import '../Entidades/Usuario.dart';
 
 class TelaCadastro extends StatefulWidget {
 
@@ -153,7 +156,7 @@ class _TelaCadastroState extends State<TelaCadastro> {
 
                    */
                   onPressed: () {
-                    Navigator.pushNamed(context, '/login');
+                    _saveLoginDetails(context);
                     }
                   ),
             ],
@@ -163,12 +166,11 @@ class _TelaCadastroState extends State<TelaCadastro> {
     );
   }
   _saveLoginDetails(BuildContext context) async {
-    /* var usuario =
-    await SerializaLogin.serializarJson(strName.text, strPassword.text);
-    if(usuario == null || usuario.Mensagem != 'Login efetuado com sucesso!') {
-      alert(context, "Usuário e/ou Senha Inválidos!");
-    }
-    */
+    FirebaseFirestore.instance.collection("usuarios")
+    .add(Usuario(nome: strName.text, email: strEmail.text, altura: strAltura.text, peso: strPeso.text, senha: strPassword.text).toJson())
+        .then((querySnapshot) {
+          Navigator.pushNamed(context, '/login');
+        });
   }
 }
 

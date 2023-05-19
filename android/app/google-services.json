@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "1011962887703",
+    "project_id": "nutri-diary-76228",
+    "storage_bucket": "nutri-diary-76228.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1011962887703:android:79e5425662ebd88c7ee652",
+        "android_client_info": {
+          "package_name": "com.example.teste"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1011962887703-6ss96b65rg0asafbcsk5d2u3s7m5rrka.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA80IkvkmfyP7VjxKPvhiCooNLzwnadWAM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1011962887703-6ss96b65rg0asafbcsk5d2u3s7m5rrka.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1011962887703-rd323tv565fnba4luu8ivf5767vcc2je.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.teste"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
