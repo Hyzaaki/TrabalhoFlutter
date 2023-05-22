@@ -75,7 +75,7 @@ class _TelaCodigoEmailState extends State<TelaCodigoEmail> {
               ElevatedButton(
                   child: Text('REDEFINIR'),
                   onPressed: () {
-                    Navigator.pushNamed(context, '/login');
+                    _validarCodigo(context);
                   }
               ),
             ],
@@ -83,5 +83,12 @@ class _TelaCodigoEmailState extends State<TelaCodigoEmail> {
         ),
       ),
     );
+  }
+  _validarCodigo(BuildContext context) async {
+    // FirebaseFirestore.instance.collection("refeicoes")
+    // .add(Refeicao(nome: strNomeNumeroRefeicao.text, alimento: strNomeAlimento.text, carbo: strCarboAlimento.text, proteina: strProteinaAlimento.text, gordura: strGorduraAlimento.text).toJson())
+    // .then((querySnapshot) {
+    Navigator.pushNamed(context, '/login');
+    // });
   }
 }

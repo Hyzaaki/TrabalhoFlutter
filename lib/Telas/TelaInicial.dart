@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:teste/Entidades/Refeicao.dart';
 
 class TelaInicial extends StatefulWidget {
 
@@ -41,7 +43,7 @@ class _TelaInicialState extends State<TelaInicial> {
                                   title: Text('Nome da refeicao'),
                                   subtitle: Text('Quantidade das calorias'),
                                   trailing: InkWell(
-                                      onTap: () => true,
+                                      onTap:  _deleteRefeicao(context),
                                       child: const Icon(Icons.remove, color: Colors.red)
                                   )
                               )
@@ -78,5 +80,12 @@ class _TelaInicialState extends State<TelaInicial> {
               )
             )
     );
+  }
+  _deleteRefeicao(BuildContext context) async {
+    // FirebaseFirestore.instance.collection("refeicoes")
+        // .delete(Refeicao(nome: strNomeNumeroRefeicao.text, alimento: strNomeAlimento.text, carbo: strCarboAlimento.text, proteina: strProteinaAlimento.text, gordura: strGorduraAlimento.text).toJson())
+        // .then((querySnapshot) {
+      Navigator.pushNamed(context, '/TelaInicial');
+    // });
   }
 }

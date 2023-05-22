@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -51,7 +52,7 @@ class _TelaRedefinirSenhaState extends State<TelaRedefinirSenha> {
               ElevatedButton(
                   child: Text('ENVIAR'),
                   onPressed: () {
-                    Navigator.pushNamed(context, '/codigo');
+                    _sendCode(context);
                   }
               ),
             ],
@@ -61,11 +62,10 @@ class _TelaRedefinirSenhaState extends State<TelaRedefinirSenha> {
     );
   }
   _sendCode(BuildContext context) async {
-    /* var usuario =
-    await SerializaLogin.serializarJson(strName.text, strPassword.text);
-    if(usuario == null || usuario.Mensagem != 'Login efetuado com sucesso!') {
-      alert(context, "Usuário e/ou Senha Inválidos!");
-    }
-    */
+    // FirebaseFirestore.instance.collection("refeicoes")
+        // .add(Refeicao(nome: strNomeNumeroRefeicao.text, alimento: strNomeAlimento.text, carbo: strCarboAlimento.text, proteina: strProteinaAlimento.text, gordura: strGorduraAlimento.text).toJson())
+        // .then((querySnapshot) {
+      Navigator.pushNamed(context, '/codigo');
+    // });
   }
 }

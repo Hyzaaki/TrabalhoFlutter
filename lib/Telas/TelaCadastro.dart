@@ -150,11 +150,6 @@ class _TelaCadastroState extends State<TelaCadastro> {
               ),
               ElevatedButton(
                   child: Text('SALVAR'),
-                  /*onPressed: () {
-                    _saveLoginDetails(context);
-                  }
-
-                   */
                   onPressed: () {
                     _saveLoginDetails(context);
                     }
