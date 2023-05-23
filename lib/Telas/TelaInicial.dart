@@ -17,7 +17,8 @@ class _TelaInicialState extends State<TelaInicial> {
         appBar: AppBar(
           title: Text('NUTRI DIARY'),
         ),
-        body: temRefeicao // VALIDACAO SE TEM REFEICAO CADASTRADA OU NAO
+        body:
+            temRefeicao // VALIDACAO SE TEM REFEICAO CADASTRADA OU NAO
             ?
             Column(
               children: [
@@ -43,7 +44,7 @@ class _TelaInicialState extends State<TelaInicial> {
                                   title: Text('Nome da refeicao'),
                                   subtitle: Text('Quantidade das calorias'),
                                   trailing: InkWell(
-                                      onTap:  _deleteRefeicao(context),
+                                      onTap:  () => _deleteRefeicao(context),
                                       child: const Icon(Icons.remove, color: Colors.red)
                                   )
                               )
@@ -81,11 +82,11 @@ class _TelaInicialState extends State<TelaInicial> {
             )
     );
   }
-  _deleteRefeicao(BuildContext context) async {
+   _deleteRefeicao(BuildContext context) async {
     // FirebaseFirestore.instance.collection("refeicoes")
         // .delete(Refeicao(nome: strNomeNumeroRefeicao.text, alimento: strNomeAlimento.text, carbo: strCarboAlimento.text, proteina: strProteinaAlimento.text, gordura: strGorduraAlimento.text).toJson())
         // .then((querySnapshot) {
-      Navigator.pushNamed(context, '/TelaInicial');
+       Navigator.pushNamed(context, '/TelaInicial');
     // });
-  }
+   }
 }
