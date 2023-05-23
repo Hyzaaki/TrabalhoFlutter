@@ -1,5 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:teste/Entidades/Usuario.dart';
 
 class TelaUsuario extends StatefulWidget {
 
@@ -12,6 +15,22 @@ class _TelaUsuarioState extends State<TelaUsuario> {
   final strEmail = TextEditingController();
   final strAltura = TextEditingController();
   final strPeso = TextEditingController();
+
+  Future obterUsuario() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? idUsuario = prefs.getString('currentUser');
+    if(idUsuario != null) {
+      var usuarioSnapshot = await FirebaseFirestore.instance.collection('usuarios').doc(idUsuario).get();
+      Usuario usuario = Usuario.fromJson(usuarioSnapshot.data() as Map<String, dynamic>);
+      strName.text = usuario.nome;
+      strEmail.text = usuario.email;
+      strAltura.text = usuario.altura;
+      strPeso.text = usuario.peso;
+    }
+    else{
+
+    }
+  }
 
   Widget _nometxt() {
     return TextFormField(
@@ -60,6 +79,13 @@ class _TelaUsuarioState extends State<TelaUsuario> {
           )),
     );
   }
+
+  @override
+  void initState(){
+    obterUsuario();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

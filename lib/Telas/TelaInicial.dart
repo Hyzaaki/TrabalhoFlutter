@@ -85,7 +85,7 @@ class _TelaInicialState extends State<TelaInicial> {
     // FirebaseFirestore.instance.collection("refeicoes")
         // .delete(Refeicao(nome: strNomeNumeroRefeicao.text, alimento: strNomeAlimento.text, carbo: strCarboAlimento.text, proteina: strProteinaAlimento.text, gordura: strGorduraAlimento.text).toJson())
         // .then((querySnapshot) {
-      Navigator.pushNamed(context, '/TelaInicial');
+      //Navigator.pushNamed(context, '/TelaInicial');
     // });
   }
 }

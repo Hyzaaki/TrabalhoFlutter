@@ -1,7 +1,7 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:teste/Entidades/Usuario.dart';
 
 class TelaLogin extends StatefulWidget {
@@ -131,19 +131,20 @@ class _TelaLoginState extends State<TelaLogin> {
   }
 
   _clickButton(BuildContext context) async {
-    //Navigator.pushNamed(context, '/TelaMenu');
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    FirebaseFirestore.instance.collection("usuarios")
+    FirebaseFirestore.instance
+        .collection("usuarios")
         .where('email', isEqualTo: strEmail.text)
         .where('senha', isEqualTo: strPassword.text)
         .get()
         .then((querySnapshot) {
-          if(querySnapshot.docs.isEmpty)
-            alert(context, 'Email ou Senha inválido.');
-          else{
-            Usuario usuario = Usuario.fromJson( querySnapshot.docs.first.data());
-            Navigator.pushNamed(context, '/TelaMenu');
-          }
+      if (querySnapshot.docs.isEmpty)
+        alert(context, 'Email ou Senha inválido.');
+      else {
+        prefs.setString('currentUser', querySnapshot.docs.first.id);
+        Navigator.pushNamed(context, '/TelaMenu');
+      }
     });
   }
 
