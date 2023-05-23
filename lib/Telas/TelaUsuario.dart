@@ -27,8 +27,20 @@ class _TelaUsuarioState extends State<TelaUsuario> {
       strAltura.text = usuario.altura;
       strPeso.text = usuario.peso;
     }
-    else{
+  }
 
+  Future editarUsuario() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? idUsuario = prefs.getString('currentUser');
+    if(idUsuario != null) {
+      var usuarioSnapshot = await FirebaseFirestore.instance.collection('usuarios').doc(idUsuario).get();
+      Usuario usuario = Usuario.fromJson(usuarioSnapshot.data() as Map<String, dynamic>);
+      usuario.nome = strName.text;
+      usuario.email = strEmail.text;
+      usuario.altura = strAltura.text;
+      usuario.peso = strPeso.text;
+      await FirebaseFirestore.instance.collection('usuarios').doc(idUsuario).set(usuario.toJson());
+      Navigator.pushNamed(context, '/TelaMenu');
     }
   }
 
@@ -147,13 +159,8 @@ class _TelaUsuarioState extends State<TelaUsuario> {
               ),
               ElevatedButton(
                   child: Text('EDITAR'),
-                  /*onPressed: () {
-                    _saveLoginDetails(context);
-                  }
-
-                   */
                   onPressed: () {
-                    Navigator.pushNamed(context, '/TelaMenu');
+                    editarUsuario();
                   }
               ),
             ],

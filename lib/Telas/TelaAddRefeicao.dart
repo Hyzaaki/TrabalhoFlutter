@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:teste/Entidades/Refeicao.dart';
 
 class TelaAddRefeicao extends StatefulWidget {
-
   @override
   _TelaAddRefeicaoState createState() => _TelaAddRefeicaoState();
 }
@@ -17,7 +17,6 @@ class _TelaAddRefeicaoState extends State<TelaAddRefeicao> {
   final strGorduraAlimento = TextEditingController();
   List<Widget> textFormFields = [];
 
-
   Widget _nomenumerorefeicaotxt() {
     return TextFormField(
       controller: strNomeNumeroRefeicao,
@@ -29,6 +28,7 @@ class _TelaAddRefeicaoState extends State<TelaAddRefeicao> {
           )),
     );
   }
+
   Widget _nomealimentotxt() {
     return TextFormField(
       controller: strNomeAlimento,
@@ -40,113 +40,102 @@ class _TelaAddRefeicaoState extends State<TelaAddRefeicao> {
           )),
     );
   }
+
   Widget _carboalimentotxt() {
-    return
-      TextFormField(
-        controller: strCarboAlimento,
-        decoration: InputDecoration(
+    return TextFormField(
+      controller: strCarboAlimento,
+      decoration: InputDecoration(
           hintText: "Carboidratos:",
           hintStyle: TextStyle(
             color: Colors.green,
             fontSize: 18.0,
           )),
-      );
+    );
   }
 
   Widget _proteinaalimentotxt() {
-    return
-      TextFormField(
-        controller: strProteinaAlimento,
-        decoration: InputDecoration(
-            hintText: "Proteínas:",
-            hintStyle: TextStyle(
-              color: Colors.green,
-              fontSize: 18.0,
-            )),
-      );
+    return TextFormField(
+      controller: strProteinaAlimento,
+      decoration: InputDecoration(
+          hintText: "Proteínas:",
+          hintStyle: TextStyle(
+            color: Colors.green,
+            fontSize: 18.0,
+          )),
+    );
   }
 
   Widget _gorduralimentotxt() {
-    return
-      TextFormField(
-        controller: strGorduraAlimento,
-        decoration: InputDecoration(
-            hintText: "Gordura:",
-            hintStyle: TextStyle(
-              color: Colors.green,
-              fontSize: 18.0,
-            )),
-      );
-
+    return TextFormField(
+      controller: strGorduraAlimento,
+      decoration: InputDecoration(
+          hintText: "Gordura:",
+          hintStyle: TextStyle(
+            color: Colors.green,
+            fontSize: 18.0,
+          )),
+    );
   }
 
   Widget _iconcamera() {
-    return
-      ElevatedButton(
+    return ElevatedButton(
         child: Icon(Icons.add_a_photo),
-          onPressed: () {
-            _openCamera(context);
-          }
-      );
+        onPressed: () {
+          _openCamera(context);
+        });
   }
 
   Widget _cardAddAlimento() {
-    return
-      Card(
-        elevation: 12.0,
-        child: Padding(
-          padding: EdgeInsets.all(20.0),
-          child:
-          Column(
-            children: <Widget>[
-              _nomealimentotxt(),
-              SizedBox(
-                height: 12.0,
-              ),
-              _carboalimentotxt(),
-              SizedBox(
-                height: 12.0,
-              ),
-              _proteinaalimentotxt(),
-              SizedBox(
-                height: 12.0,
-              ),
-              _gorduralimentotxt(),
-              SizedBox(
-                height: 16.0,
-              ),
-              Row(
-                  children: <Widget>[
-                    _iconcamera(),
-                  ]
-              )
-            ],
-          ),
+    return Card(
+      elevation: 12.0,
+      child: Padding(
+        padding: EdgeInsets.all(20.0),
+        child: Column(
+          children: <Widget>[
+            _nomealimentotxt(),
+            SizedBox(
+              height: 12.0,
+            ),
+            _carboalimentotxt(),
+            SizedBox(
+              height: 12.0,
+            ),
+            _proteinaalimentotxt(),
+            SizedBox(
+              height: 12.0,
+            ),
+            _gorduralimentotxt(),
+            SizedBox(
+              height: 16.0,
+            ),
+            Row(children: <Widget>[
+              _iconcamera(),
+            ])
+          ],
         ),
-      );
+      ),
+    );
   }
 
   Widget _addalimento() {
-    return
-      ElevatedButton(
-          child: Icon(Icons.add_circle),
-        onPressed: () {
-          // Adiciona um novo TextFormField à lista
-          setState(() {
-            textFormFields.add(_cardAddAlimento());
-          });
-        },
-      );
+    return ElevatedButton(
+      child: Icon(Icons.add_circle),
+      onPressed: () {
+        // Adiciona um novo TextFormField à lista
+        setState(() {
+          textFormFields.add(_cardAddAlimento());
+        });
+      },
+    );
   }
 
   Widget _salvarRefeicao() {
-    return
-      ElevatedButton(
-        child: Text('Salvar'),
-        onPressed: () {
-          _saveRefeicao(context);
-        },
-      );
+    return ElevatedButton(
+      child: Text('Salvar'),
+      onPressed: () {
+        _saveRefeicao(context);
+      },
+    );
   }
 
   @override
@@ -157,91 +146,100 @@ class _TelaAddRefeicaoState extends State<TelaAddRefeicao> {
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
-          child: ListView(
-            children: <Widget>[
-              Card(
-                elevation: 12.0,
-                child: Padding(
-                  padding: EdgeInsets.all(20.0),
-                  child: Column(
-                    children: <Widget>[
-                      _nomenumerorefeicaotxt(),
-                    ],
-                  ),
-                ),
-              ),
-              Card(
-                elevation: 12.0,
-                child: Padding(
-                  padding: EdgeInsets.all(20.0),
-                  child:
-                  Column(
-                    children: <Widget>[
-                      _nomealimentotxt(),
-                      SizedBox(
-                        height: 12.0,
-                      ),
-                      _carboalimentotxt(),
-                      SizedBox(
-                        height: 12.0,
-                      ),
-                      _proteinaalimentotxt(),
-                      SizedBox(
-                        height: 12.0,
-                      ),
-                      _gorduralimentotxt(),
-                      SizedBox(
-                        height: 16.0,
-                      ),
-                      Row(
-                        children: <Widget>[
-                          _iconcamera(),
-                        ]
-                      )
-                    ],
-                  ),
-                ),
-              ),
-              Column(
-                children: textFormFields,
-              ),
-              SizedBox(
-                height: 12.0,
-              ),
-              Padding(
-                  padding: EdgeInsets.only(left: 8.0),
-                  child: Row(
-                    children: <Widget>[
-                      _addalimento(),
-                    ],
-                  ),
-                ),
-              SizedBox(
-                height: 16.0,
-              ),
-              Padding(
-                padding: EdgeInsets.only(left: 8.0),
+        child: ListView(
+          children: <Widget>[
+            Card(
+              elevation: 12.0,
+              child: Padding(
+                padding: EdgeInsets.all(20.0),
                 child: Column(
                   children: <Widget>[
-                    _salvarRefeicao(),
+                    _nomenumerorefeicaotxt(),
                   ],
                 ),
-              )
-
-            ],
-
-          ),
+              ),
+            ),
+            Card(
+              elevation: 12.0,
+              child: Padding(
+                padding: EdgeInsets.all(20.0),
+                child: Column(
+                  children: <Widget>[
+                    _nomealimentotxt(),
+                    SizedBox(
+                      height: 12.0,
+                    ),
+                    _carboalimentotxt(),
+                    SizedBox(
+                      height: 12.0,
+                    ),
+                    _proteinaalimentotxt(),
+                    SizedBox(
+                      height: 12.0,
+                    ),
+                    _gorduralimentotxt(),
+                    SizedBox(
+                      height: 16.0,
+                    ),
+                    Row(children: <Widget>[
+                      _iconcamera(),
+                    ])
+                  ],
+                ),
+              ),
+            ),
+            Column(
+              children: textFormFields,
+            ),
+            SizedBox(
+              height: 12.0,
+            ),
+            /*Padding(
+              padding: EdgeInsets.only(left: 8.0),
+              child: Row(
+                children: <Widget>[
+                  _addalimento(),
+                ],
+              ),
+            ),
+            */
+            SizedBox(
+              height: 16.0,
+            ),
+            Padding(
+              padding: EdgeInsets.only(left: 8.0),
+              child: Column(
+                children: <Widget>[
+                  _salvarRefeicao(),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
-
     );
   }
+
   _saveRefeicao(BuildContext context) async {
-    FirebaseFirestore.instance.collection("refeicoes")
-        .add(Refeicao(nome: strNomeNumeroRefeicao.text, alimento: strNomeAlimento.text, carbo: strCarboAlimento.text, proteina: strProteinaAlimento.text, gordura: strGorduraAlimento.text).toJson())
-        .then((querySnapshot) {
-      Navigator.pushNamed(context, '/TelaMenu');
-    });
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? idUsuario = prefs.getString('currentUser');
+    if (idUsuario != null) {
+      FirebaseFirestore.instance
+          .collection("refeicoes")
+          .add(Refeicao(
+                  nome: strNomeNumeroRefeicao.text,
+                  idUsuario: idUsuario,
+                  alimento: strNomeAlimento.text,
+                  carbo: strCarboAlimento.text,
+                  proteina: strProteinaAlimento.text,
+                  gordura: strGorduraAlimento.text)
+              .toJson())
+          .then((querySnapshot) {
+        Navigator.pushNamed(context, '/TelaInicial');
+      });
+    }
   }
+
   _openCamera(BuildContext context) async {
     /* var usuario =
     await SerializaLogin.serializarJson(strName.text, strPassword.text);

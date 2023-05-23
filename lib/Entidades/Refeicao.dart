@@ -1,5 +1,6 @@
 class Refeicao {
   String? id;
+  String idUsuario;
   String nome;
   String alimento;
   String carbo;
@@ -10,6 +11,7 @@ class Refeicao {
 
   Refeicao({
     this.id,
+    required this.idUsuario,
     required this.nome,
     required this.alimento,
     required this.carbo,
@@ -20,12 +22,13 @@ class Refeicao {
 
   factory Refeicao.fromJson(Map<String, dynamic> json) {
     return Refeicao(
-        id: json['id'],
-        nome: json['nome'],
-        alimento: json['alimento'],
-        carbo: json['carbo'],
-        proteina: json['proteina'],
-        gordura: json['gordura'],
+      id: json['id'],
+      idUsuario: json['idUsuario'],
+      nome: json['nome'],
+      alimento: json['alimento'],
+      carbo: json['carbo'],
+      proteina: json['proteina'],
+      gordura: json['gordura'],
       // Assign additional properties from JSON here
     );
   }
@@ -33,6 +36,7 @@ class Refeicao {
   Map<String, dynamic> toJson() {
     return {
       'id': id,
+      'idUsuario': idUsuario,
       'nome': nome,
       'alimento': alimento,
       'carbo': carbo,
