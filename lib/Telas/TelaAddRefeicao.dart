@@ -4,6 +4,27 @@ import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:teste/Entidades/Refeicao.dart';
 
+import 'RefeicaoItem.dart';
+
+class ItemRefeicao {
+  TextEditingController nome;
+  TextEditingController alimento;
+  TextEditingController carbo;
+  TextEditingController proteina;
+  TextEditingController gordura;
+
+  // Add any additional properties you need
+
+  ItemRefeicao({
+    required this.nome,
+    required this.alimento,
+    required this.carbo,
+    required this.proteina,
+    required this.gordura,
+    // Initialize additional properties here
+  });
+}
+
 class TelaAddRefeicao extends StatefulWidget {
   @override
   _TelaAddRefeicaoState createState() => _TelaAddRefeicaoState();
@@ -11,11 +32,9 @@ class TelaAddRefeicao extends StatefulWidget {
 
 class _TelaAddRefeicaoState extends State<TelaAddRefeicao> {
   final strNomeNumeroRefeicao = TextEditingController();
-  final strNomeAlimento = TextEditingController();
-  final strCarboAlimento = TextEditingController();
-  final strProteinaAlimento = TextEditingController();
-  final strGorduraAlimento = TextEditingController();
   List<Widget> textFormFields = [];
+  List<ItemRefeicao> listItemRefeicao = [];
+  final List<Refeicao> listRefeicao = [];
 
   Widget _nomenumerorefeicaotxt() {
     return TextFormField(
@@ -29,101 +48,13 @@ class _TelaAddRefeicaoState extends State<TelaAddRefeicao> {
     );
   }
 
-  Widget _nomealimentotxt() {
-    return TextFormField(
-      controller: strNomeAlimento,
-      decoration: InputDecoration(
-          hintText: "Alimento:",
-          hintStyle: TextStyle(
-            color: Colors.green,
-            fontSize: 18.0,
-          )),
-    );
-  }
-
-  Widget _carboalimentotxt() {
-    return TextFormField(
-      controller: strCarboAlimento,
-      decoration: InputDecoration(
-          hintText: "Carboidratos:",
-          hintStyle: TextStyle(
-            color: Colors.green,
-            fontSize: 18.0,
-          )),
-    );
-  }
-
-  Widget _proteinaalimentotxt() {
-    return TextFormField(
-      controller: strProteinaAlimento,
-      decoration: InputDecoration(
-          hintText: "Proteínas:",
-          hintStyle: TextStyle(
-            color: Colors.green,
-            fontSize: 18.0,
-          )),
-    );
-  }
-
-  Widget _gorduralimentotxt() {
-    return TextFormField(
-      controller: strGorduraAlimento,
-      decoration: InputDecoration(
-          hintText: "Gordura:",
-          hintStyle: TextStyle(
-            color: Colors.green,
-            fontSize: 18.0,
-          )),
-    );
-  }
-
-  Widget _iconcamera() {
-    return ElevatedButton(
-        child: Icon(Icons.add_a_photo),
-        onPressed: () {
-          _openCamera(context);
-        });
-  }
-
-  Widget _cardAddAlimento() {
-    return Card(
-      elevation: 12.0,
-      child: Padding(
-        padding: EdgeInsets.all(20.0),
-        child: Column(
-          children: <Widget>[
-            _nomealimentotxt(),
-            SizedBox(
-              height: 12.0,
-            ),
-            _carboalimentotxt(),
-            SizedBox(
-              height: 12.0,
-            ),
-            _proteinaalimentotxt(),
-            SizedBox(
-              height: 12.0,
-            ),
-            _gorduralimentotxt(),
-            SizedBox(
-              height: 16.0,
-            ),
-            Row(children: <Widget>[
-              _iconcamera(),
-            ])
-          ],
-        ),
-      ),
-    );
-  }
-
   Widget _addalimento() {
     return ElevatedButton(
       child: Icon(Icons.add_circle),
       onPressed: () {
         // Adiciona um novo TextFormField à lista
         setState(() {
-          textFormFields.add(_cardAddAlimento());
+          textFormFields.add(RefeicaoItem(listRefeicao: listRefeicao, indice: textFormFields.length));
         });
       },
     );
@@ -136,6 +67,14 @@ class _TelaAddRefeicaoState extends State<TelaAddRefeicao> {
         _saveRefeicao(context);
       },
     );
+  }
+
+  @override
+  void initState(){
+    super.initState();
+    setState(() {
+      textFormFields.add(RefeicaoItem(listRefeicao: listRefeicao, indice: textFormFields.length,));
+    });
   }
 
   @override
@@ -159,42 +98,13 @@ class _TelaAddRefeicaoState extends State<TelaAddRefeicao> {
                 ),
               ),
             ),
-            Card(
-              elevation: 12.0,
-              child: Padding(
-                padding: EdgeInsets.all(20.0),
-                child: Column(
-                  children: <Widget>[
-                    _nomealimentotxt(),
-                    SizedBox(
-                      height: 12.0,
-                    ),
-                    _carboalimentotxt(),
-                    SizedBox(
-                      height: 12.0,
-                    ),
-                    _proteinaalimentotxt(),
-                    SizedBox(
-                      height: 12.0,
-                    ),
-                    _gorduralimentotxt(),
-                    SizedBox(
-                      height: 16.0,
-                    ),
-                    Row(children: <Widget>[
-                      _iconcamera(),
-                    ])
-                  ],
-                ),
-              ),
-            ),
             Column(
               children: textFormFields,
             ),
             SizedBox(
               height: 12.0,
             ),
-            /*Padding(
+            Padding(
               padding: EdgeInsets.only(left: 8.0),
               child: Row(
                 children: <Widget>[
@@ -202,7 +112,6 @@ class _TelaAddRefeicaoState extends State<TelaAddRefeicao> {
                 ],
               ),
             ),
-            */
             SizedBox(
               height: 16.0,
             ),
@@ -224,19 +133,12 @@ class _TelaAddRefeicaoState extends State<TelaAddRefeicao> {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     String? idUsuario = prefs.getString('currentUser');
     if (idUsuario != null) {
-      FirebaseFirestore.instance
-          .collection("refeicoes")
-          .add(Refeicao(
-                  nome: strNomeNumeroRefeicao.text,
-                  idUsuario: idUsuario,
-                  alimento: strNomeAlimento.text,
-                  carbo: strCarboAlimento.text,
-                  proteina: strProteinaAlimento.text,
-                  gordura: strGorduraAlimento.text)
-              .toJson())
-          .then((querySnapshot) {
-        Navigator.pushNamed(context, '/TelaInicial');
+      listRefeicao.forEach((element) {
+        FirebaseFirestore.instance
+            .collection("refeicoes")
+            .add(element.toJson());
       });
+      Navigator.pushNamed(context, '/TelaInicial');
     }
   }
 

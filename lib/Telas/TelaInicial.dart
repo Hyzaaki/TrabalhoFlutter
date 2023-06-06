@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:teste/Entidades/Refeicao.dart';
 
 import '../Entidades/Usuario.dart';
+import 'TelaUsuario.dart';
 
 class TelaInicial extends StatefulWidget {
   @override
@@ -13,6 +14,16 @@ class TelaInicial extends StatefulWidget {
 
 class _TelaInicialState extends State<TelaInicial> {
   List<Refeicao> listaRefeicoes = [];
+
+  int _selectedIndex = 0;
+
+  final List<Widget> _pages = [TelaInicial(), TelaUsuario()];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
 
   Future listarRefeicoes() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -44,14 +55,12 @@ class _TelaInicialState extends State<TelaInicial> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text('NUTRI DIARY'),
-        ),
-        body: listaRefeicoes
+    return
+
+      listaRefeicoes
                 .isNotEmpty // VALIDACAO SE TEM REFEICAO CADASTRADA OU NAO
             ? Column(
-                children: [
+              children: [
                   Expanded(
                       child: ListView.builder(
                           itemCount: listaRefeicoes.length,
@@ -82,8 +91,28 @@ class _TelaInicialState extends State<TelaInicial> {
                                                 context,
                                                 item.id as String,
                                                 index),
-                                            child: const Icon(Icons.remove, color: Colors.red)))));
-                          }))
+                                            child: const Icon(Icons.remove, color: Colors.red)))
+
+                                ),
+                            );
+                          })),
+                        ElevatedButton(
+                          child: Icon(Icons.add),
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/TelaAddRefeicao');
+                          },
+                          style: ButtonStyle(
+                            minimumSize:
+                            MaterialStateProperty.all(Size(40, 40)),
+                            // define o tamanho mínimo do botão
+                            padding:
+                            MaterialStateProperty.all(EdgeInsets.all(20)),
+                            // define o preenchimento do botão
+                            textStyle: MaterialStateProperty.all(TextStyle(
+                                fontSize:
+                                50)), // define o estilo do texto do botão
+                          ),
+                        ),
                 ],
               )
             : Padding(
@@ -114,7 +143,24 @@ class _TelaInicialState extends State<TelaInicial> {
                       ],
                     ),
                   ],
-                )));
+                ));
+      /*bottomNavigationBar: BottomNavigationBar(
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Início',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.account_box),
+            label: 'Conta',
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
+      ),
+
+       */
+
   }
 
   _deleteRefeicao(
