@@ -39,6 +39,7 @@ class _TelaInicialState extends State<TelaInicial> {
         listaRefeicoes.add(r);
       });
       if (listaRefeicoes.isNotEmpty) {
+        listaRefeicoes.sort((a, b) => a.data.compareTo(b.data));
         setState(() {
           listaRefeicoes = listaRefeicoes;
         });
@@ -56,94 +57,96 @@ class _TelaInicialState extends State<TelaInicial> {
   @override
   Widget build(BuildContext context) {
     return
-
-      listaRefeicoes
-                .isNotEmpty // VALIDACAO SE TEM REFEICAO CADASTRADA OU NAO
+      Material(
+        child: listaRefeicoes
+            .isNotEmpty // VALIDACAO SE TEM REFEICAO CADASTRADA OU NAO
             ? Column(
-              children: [
-                  Expanded(
-                      child: ListView.builder(
-                          itemCount: listaRefeicoes.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            Refeicao item = listaRefeicoes[index];
-                            return Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 16, vertical: 8),
-                                child: Container(
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(16),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.grey.withOpacity(0.5),
-                                          spreadRadius: 2,
-                                          blurRadius: 5,
-                                          offset: const Offset(0, 3),
-                                        ),
-                                      ],
-                                    ),
-                                    child: ListTile(
-                                        title: Text(item.nome),
-                                        subtitle:
-                                            Text('Quantidade das calorias'),
-                                        trailing: InkWell(
-                                            onTap: () => _deleteRefeicao(
-                                                context,
-                                                item.id as String,
-                                                index),
-                                            child: const Icon(Icons.remove, color: Colors.red)))
-
+          children: [
+            Expanded(
+                child: ListView.builder(
+                    itemCount: listaRefeicoes.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      Refeicao item = listaRefeicoes[index];
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 8),
+                        child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(16),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  spreadRadius: 2,
+                                  blurRadius: 5,
+                                  offset: const Offset(0, 3),
                                 ),
-                            );
-                          })),
-                        ElevatedButton(
-                          child: Icon(Icons.add),
-                          onPressed: () {
-                            Navigator.pushNamed(context, '/TelaAddRefeicao');
-                          },
-                          style: ButtonStyle(
-                            minimumSize:
-                            MaterialStateProperty.all(Size(40, 40)),
-                            // define o tamanho mínimo do botão
-                            padding:
-                            MaterialStateProperty.all(EdgeInsets.all(20)),
-                            // define o preenchimento do botão
-                            textStyle: MaterialStateProperty.all(TextStyle(
-                                fontSize:
-                                50)), // define o estilo do texto do botão
-                          ),
+                              ],
+                            ),
+                            child: ListTile(
+                                title: Text(item.nome),
+                                subtitle:
+                                Text('Quantidade das calorias'),
+                                trailing: InkWell(
+                                    onTap: () => _deleteRefeicao(
+                                        context,
+                                        item.id as String,
+                                        index),
+                                    child: const Icon(Icons.remove, color: Colors.red)))
+
                         ),
-                ],
-              )
+                      );
+                    })),
+            ElevatedButton(
+              child: Icon(Icons.add),
+              onPressed: () {
+                Navigator.pushNamed(context, '/TelaAddRefeicao');
+              },
+              style: ButtonStyle(
+                minimumSize:
+                MaterialStateProperty.all(Size(40, 40)),
+                // define o tamanho mínimo do botão
+                padding:
+                MaterialStateProperty.all(EdgeInsets.all(20)),
+                // define o preenchimento do botão
+                textStyle: MaterialStateProperty.all(TextStyle(
+                    fontSize:
+                    50)), // define o estilo do texto do botão
+              ),
+            ),
+          ],
+        )
             : Padding(
-                padding: EdgeInsets.all(16.0),
-                child: Column(
+            padding: EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        ElevatedButton(
-                          child: Icon(Icons.add),
-                          onPressed: () {
-                            Navigator.pushNamed(context, '/TelaAddRefeicao');
-                          },
-                          style: ButtonStyle(
-                            minimumSize:
-                                MaterialStateProperty.all(Size(100, 70)),
-                            // define o tamanho mínimo do botão
-                            padding:
-                                MaterialStateProperty.all(EdgeInsets.all(20)),
-                            // define o preenchimento do botão
-                            textStyle: MaterialStateProperty.all(TextStyle(
-                                fontSize:
-                                    50)), // define o estilo do texto do botão
-                          ),
-                        ),
-                      ],
+                    ElevatedButton(
+                      child: Icon(Icons.add),
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/TelaAddRefeicao');
+                      },
+                      style: ButtonStyle(
+                        minimumSize:
+                        MaterialStateProperty.all(Size(100, 70)),
+                        // define o tamanho mínimo do botão
+                        padding:
+                        MaterialStateProperty.all(EdgeInsets.all(20)),
+                        // define o preenchimento do botão
+                        textStyle: MaterialStateProperty.all(TextStyle(
+                            fontSize:
+                            50)), // define o estilo do texto do botão
+                      ),
                     ),
                   ],
-                ));
+                ),
+              ],
+            )),
+      );
+
       /*bottomNavigationBar: BottomNavigationBar(
         items: [
           BottomNavigationBarItem(

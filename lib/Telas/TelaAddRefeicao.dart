@@ -132,13 +132,17 @@ class _TelaAddRefeicaoState extends State<TelaAddRefeicao> {
   _saveRefeicao(BuildContext context) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     String? idUsuario = prefs.getString('currentUser');
+    print('tamanho lista na hora de salvar');
+    print(listRefeicao.length);
     if (idUsuario != null) {
-      listRefeicao.forEach((element) {
-        FirebaseFirestore.instance
+      listRefeicao.forEach((element) async {
+        await FirebaseFirestore.instance
             .collection("refeicoes")
             .add(element.toJson());
+
+        if(listRefeicao.indexOf(element) == listRefeicao.length - 1)
+          Navigator.of(context).pushNamedAndRemoveUntil('/TelaMenu', (r) => false);
       });
-      Navigator.pushNamed(context, '/TelaInicial');
     }
   }
 

@@ -44,6 +44,10 @@ class _TelaUsuarioState extends State<TelaUsuario> {
     }
   }
 
+  void logout() {
+    Navigator.of(context).pushNamedAndRemoveUntil('/', (r) => false);
+  }
+
   Widget _nometxt() {
     return TextFormField(
       controller: strName,
@@ -157,12 +161,23 @@ class _TelaUsuarioState extends State<TelaUsuario> {
               SizedBox(
                 height: 16.0,
               ),
-              ElevatedButton(
-                  child: Text('EDITAR'),
-                  onPressed: () {
-                    editarUsuario();
-                  }
-              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment:  MainAxisAlignment.center,
+                children: [ElevatedButton(
+                    child: Text('EDITAR'),
+                    onPressed: () {
+                      editarUsuario();
+                    }
+                ),
+                  ElevatedButton(
+                      child: Text('LOGOUT'),
+                      onPressed: () {
+                        logout();
+                      }
+                  ),],
+              )
+
             ],
           ),
         ),

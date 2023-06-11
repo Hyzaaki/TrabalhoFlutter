@@ -22,17 +22,38 @@ class _RefeicaoItemState extends State<RefeicaoItem> {
   List<Widget> textFormFields = [];
 
 
-  AtualizarLista () async {
+  AtualizarLista (String? texto) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     String? idUsuario = prefs.getString('currentUser');
+    print('AtualizarLista');
+    print(widget.indice);
+    print(widget.listRefeicao.length);
+
     if(widget.indice > widget.listRefeicao.length - 1) {
-      widget.listRefeicao.add(Refeicao(idUsuario: idUsuario!, nome: strNomeAlimento.text, alimento: strNomeAlimento.text, carbo: strCarboAlimento.text, proteina: strProteinaAlimento.text, gordura: strGorduraAlimento.text));
+      print('aqui1');
+      widget.listRefeicao.add(
+          Refeicao(idUsuario: idUsuario!,
+              nome: strNomeAlimento.text,
+              alimento: strNomeAlimento.text,
+              carbo: strCarboAlimento.text,
+              proteina: strProteinaAlimento.text,
+              gordura: strGorduraAlimento.text,
+              data: DateTime.now()));
+    }
+    else {
+      print('aqui2');
+      widget.listRefeicao[widget.indice].nome = strNomeAlimento.text;
+      widget.listRefeicao[widget.indice].alimento = strNomeAlimento.text;
+      widget.listRefeicao[widget.indice].carbo = strCarboAlimento.text;
+      widget.listRefeicao[widget.indice].proteina = strProteinaAlimento.text;
+      widget.listRefeicao[widget.indice].gordura = strGorduraAlimento.text;
     }
   }
 
   Widget _nomealimentotxt() {
     return TextFormField(
       controller: strNomeAlimento,
+      onChanged: AtualizarLista,
       decoration: InputDecoration(
           hintText: "Alimento:",
           hintStyle: TextStyle(
