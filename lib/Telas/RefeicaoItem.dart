@@ -1,8 +1,13 @@
+import 'package:camera/camera.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:teste/Entidades/Refeicao.dart';
+import 'package:http/http.dart' as http;
+
+import 'TakePictureScreen.dart';
+
 
 class RefeicaoItem extends StatefulWidget {
   @override
@@ -21,6 +26,15 @@ class _RefeicaoItemState extends State<RefeicaoItem> {
   final strGorduraAlimento = TextEditingController();
   List<Widget> textFormFields = [];
 
+  _openCamera(BuildContext context) async {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => TakePictureScreen(),
+            fullscreenDialog: true
+        )
+    );
+  }
 
   AtualizarLista (String? texto) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -49,6 +63,21 @@ class _RefeicaoItemState extends State<RefeicaoItem> {
       widget.listRefeicao[widget.indice].gordura = strGorduraAlimento.text;
     }
   }
+
+
+
+  Future<http.Response> fetchAlbum() {
+    Map<String, String> header = new Map<String, String>();
+    header['Ocp-Apim-Subscription-Key'] = '43547ca6642c41918d5de5af7d2bd5c9';
+    header['Content-Type'] = 'application/octet-stream';
+    String url = '"https://compvision-philipicalt.cognitiveservices.azure.com/computervision/imageanalysis:analyze?features=read&model-version=latest&language=en&api-version=2023-02-01-preview';
+    return http.post(
+      Uri.parse(url),
+      headers: header,
+      body: ''
+    );
+  }
+
 
   Widget _nomealimentotxt() {
     return TextFormField(
@@ -138,14 +167,5 @@ class _RefeicaoItemState extends State<RefeicaoItem> {
                 ),
               ),
             );
-  }
-
-  _openCamera(BuildContext context) async {
-    /* var usuario =
-    await SerializaLogin.serializarJson(strName.text, strPassword.text);
-    if(usuario == null || usuario.Mensagem != 'Login efetuado com sucesso!') {
-      alert(context, "Usuário e/ou Senha Inválidos!");
-    }
-    */
   }
 }

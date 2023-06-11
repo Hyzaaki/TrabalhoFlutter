@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'Telas/TakePictureScreen.dart';
 import 'Telas/TelaAddRefeicao.dart';
 import 'Telas/TelaCadastro.dart';
 import 'Telas/TelaCodigoEmail.dart';

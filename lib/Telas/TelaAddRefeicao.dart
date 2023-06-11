@@ -146,12 +146,4 @@ class _TelaAddRefeicaoState extends State<TelaAddRefeicao> {
     }
   }
 
-  _openCamera(BuildContext context) async {
-    /* var usuario =
-    await SerializaLogin.serializarJson(strName.text, strPassword.text);
-    if(usuario == null || usuario.Mensagem != 'Login efetuado com sucesso!') {
-      alert(context, "Usuário e/ou Senha Inválidos!");
-    }
-    */
-  }
 }
