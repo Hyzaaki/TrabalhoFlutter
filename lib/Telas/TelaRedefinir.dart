@@ -65,7 +65,7 @@ class _TelaRedefinirSenhaState extends State<TelaRedefinirSenha> {
     // FirebaseFirestore.instance.collection("refeicoes")
         // .add(Refeicao(nome: strNomeNumeroRefeicao.text, alimento: strNomeAlimento.text, carbo: strCarboAlimento.text, proteina: strProteinaAlimento.text, gordura: strGorduraAlimento.text).toJson())
         // .then((querySnapshot) {
-      Navigator.pushNamed(context, '/codigo');
+      Navigator.of(context).pushNamedAndRemoveUntil('/codigo', (r) => false);
     // });
   }
 }

@@ -39,7 +39,10 @@ class _TelaPrincipalState extends State<TelaPrincipal> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          Navigator.pushNamed(context, '/login');
+                          /*Navigator.pushNamed(context, '/login');
+
+                           */
+                          Navigator.of(context).pushNamedAndRemoveUntil('/login', (r) => false);
                         },
                         child: Text(
                           "CONECTAR",

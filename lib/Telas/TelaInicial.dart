@@ -62,56 +62,58 @@ class _TelaInicialState extends State<TelaInicial> {
             .isNotEmpty // VALIDACAO SE TEM REFEICAO CADASTRADA OU NAO
             ? Column(
           children: [
-            Expanded(
-                child: ListView.builder(
-                    itemCount: listaRefeicoes.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      Refeicao item = listaRefeicoes[index];
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 8),
-                        child: Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(16),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.5),
-                                  spreadRadius: 2,
-                                  blurRadius: 5,
-                                  offset: const Offset(0, 3),
-                                ),
-                              ],
-                            ),
-                            child: ListTile(
-                                title: Text(item.nome),
-                                subtitle:
-                                Text('Quantidade das calorias'),
-                                trailing: InkWell(
-                                    onTap: () => _deleteRefeicao(
-                                        context,
-                                        item.id as String,
-                                        index),
-                                    child: const Icon(Icons.remove, color: Colors.red)))
-
+            Flexible(
+              child: ListView.builder(
+                itemCount: listaRefeicoes.length,
+                itemBuilder: (BuildContext context, int index) {
+                  Refeicao item = listaRefeicoes[index];
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 8),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(16),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 2,
+                            blurRadius: 5,
+                            offset: const Offset(0, 3),
+                          ),
+                        ],
+                      ),
+                      child: ListTile(
+                        title: Text(item.nome),
+                        subtitle: Text('Kcal:'),
+                        trailing: InkWell(
+                          onTap: () => _deleteRefeicao(
+                            context,
+                            item.id as String,
+                            index,
+                          ),
+                          child: const Icon(
+                            Icons.remove,
+                            color: Colors.red,
+                          ),
                         ),
-                      );
-                    })),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
             ElevatedButton(
               child: Icon(Icons.add),
               onPressed: () {
                 Navigator.pushNamed(context, '/TelaAddRefeicao');
               },
               style: ButtonStyle(
-                minimumSize:
-                MaterialStateProperty.all(Size(40, 40)),
-                // define o tamanho mínimo do botão
-                padding:
-                MaterialStateProperty.all(EdgeInsets.all(20)),
-                // define o preenchimento do botão
-                textStyle: MaterialStateProperty.all(TextStyle(
-                    fontSize:
-                    50)), // define o estilo do texto do botão
+                minimumSize: MaterialStateProperty.all(Size(40, 40)),
+                padding: MaterialStateProperty.all(EdgeInsets.all(20)),
+                textStyle: MaterialStateProperty.all(
+                  TextStyle(fontSize: 50),
+                ),
               ),
             ),
           ],
@@ -127,7 +129,10 @@ class _TelaInicialState extends State<TelaInicial> {
                     ElevatedButton(
                       child: Icon(Icons.add),
                       onPressed: () {
-                        Navigator.pushNamed(context, '/TelaAddRefeicao');
+                        /*Navigator.pushNamed(context, '/TelaAddRefeicao');
+
+                         */
+                        Navigator.of(context).pushNamedAndRemoveUntil('/TelaAddRefeicao', (r) => false);
                       },
                       style: ButtonStyle(
                         minimumSize:
@@ -146,24 +151,6 @@ class _TelaInicialState extends State<TelaInicial> {
               ],
             )),
       );
-
-      /*bottomNavigationBar: BottomNavigationBar(
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Início',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_box),
-            label: 'Conta',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
-      ),
-
-       */
-
   }
 
   _deleteRefeicao(
@@ -178,3 +165,99 @@ class _TelaInicialState extends State<TelaInicial> {
     });
   }
 }
+
+/*
+@override
+Widget build(BuildContext context) {
+  return Material(
+    child: listaRefeicoes.isNotEmpty
+        ? Column(
+      children: [
+        Flexible(
+          child: ListView.builder(
+            itemCount: listaRefeicoes.length,
+            itemBuilder: (BuildContext context, int index) {
+              Refeicao item = listaRefeicoes[index];
+              return Padding(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 16, vertical: 8),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(16),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 2,
+                        blurRadius: 5,
+                        offset: const Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  child: ListTile(
+                    title: Text(item.nome),
+                    subtitle: Text('Kcal:'),
+                    trailing: InkWell(
+                      onTap: () => _deleteRefeicao(
+                        context,
+                        item.id as String,
+                        index,
+                      ),
+                      child: const Icon(
+                        Icons.remove,
+                        color: Colors.red,
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+        ElevatedButton(
+          child: Icon(Icons.add),
+          onPressed: () {
+            Navigator.pushNamed(context, '/TelaAddRefeicao');
+          },
+          style: ButtonStyle(
+            minimumSize: MaterialStateProperty.all(Size(40, 40)),
+            padding: MaterialStateProperty.all(EdgeInsets.all(20)),
+            textStyle: MaterialStateProperty.all(
+              TextStyle(fontSize: 50),
+            ),
+          ),
+        ),
+      ],
+    )
+        : Padding(
+      padding: EdgeInsets.all(16.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              ElevatedButton(
+                child: Icon(Icons.add),
+                onPressed: () {
+                  Navigator.of(context).pushNamedAndRemoveUntil(
+                      '/TelaAddRefeicao', (r) => false);
+                },
+                style: ButtonStyle(
+                  minimumSize: MaterialStateProperty.all(Size(100, 70)),
+                  padding: MaterialStateProperty.all(EdgeInsets.all(20)),
+                  textStyle: MaterialStateProperty.all(
+                    TextStyle(fontSize: 50),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
+
+ */

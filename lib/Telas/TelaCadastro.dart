@@ -164,7 +164,10 @@ class _TelaCadastroState extends State<TelaCadastro> {
     FirebaseFirestore.instance.collection("usuarios")
     .add(Usuario(nome: strName.text, email: strEmail.text, altura: strAltura.text, peso: strPeso.text, senha: strPassword.text).toJson())
         .then((querySnapshot) {
-          Navigator.pushNamed(context, '/login');
+          /*Navigator.pushNamed(context, '/login');
+
+           */
+          Navigator.of(context).pushNamedAndRemoveUntil('/login', (r) => false);
         });
   }
 }

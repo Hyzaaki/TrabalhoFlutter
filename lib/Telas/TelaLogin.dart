@@ -143,7 +143,10 @@ class _TelaLoginState extends State<TelaLogin> {
         alert(context, 'Email ou Senha inválido.');
       else {
         prefs.setString('currentUser', querySnapshot.docs.first.id);
-        Navigator.pushNamed(context, '/TelaMenu');
+        /*Navigator.pushNamed(context, '/TelaMenu');
+
+         */
+        Navigator.of(context).pushNamedAndRemoveUntil('/TelaMenu', (r) => false);
       }
     });
   }

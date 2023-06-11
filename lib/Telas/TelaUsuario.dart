@@ -40,7 +40,7 @@ class _TelaUsuarioState extends State<TelaUsuario> {
       usuario.altura = strAltura.text;
       usuario.peso = strPeso.text;
       await FirebaseFirestore.instance.collection('usuarios').doc(idUsuario).set(usuario.toJson());
-      Navigator.pushNamed(context, '/TelaMenu');
+      Navigator.of(context).pushNamedAndRemoveUntil('/TelaMenu', (r) => false);
     }
   }
 
@@ -170,8 +170,14 @@ class _TelaUsuarioState extends State<TelaUsuario> {
                       editarUsuario();
                     }
                 ),
+                  SizedBox(
+                    height: 16.0,
+                  ),
                   ElevatedButton(
                       child: Text('LOGOUT'),
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.red, // Background color
+                      ),
                       onPressed: () {
                         logout();
                       }
