@@ -73,7 +73,7 @@ class _TelaAddRefeicaoState extends State<TelaAddRefeicao> {
   void initState(){
     super.initState();
     setState(() {
-      textFormFields.add(RefeicaoItem(listRefeicao: listRefeicao, indice: textFormFields.length,));
+      textFormFields.add(RefeicaoItem(listRefeicao: listRefeicao, indice: textFormFields.length));
     });
   }
 
@@ -136,6 +136,7 @@ class _TelaAddRefeicaoState extends State<TelaAddRefeicao> {
     print(listRefeicao.length);
     if (idUsuario != null) {
       listRefeicao.forEach((element) async {
+        element.nome = strNomeNumeroRefeicao.text;
         await FirebaseFirestore.instance
             .collection("refeicoes")
             .add(element.toJson());

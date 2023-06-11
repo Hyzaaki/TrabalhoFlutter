@@ -26,12 +26,57 @@ class _RefeicaoItemState extends State<RefeicaoItem> {
   final strGorduraAlimento = TextEditingController();
   List<Widget> textFormFields = [];
 
+  Future lerImagem(XFile stateImagem) async {
+    Map<String, String> header = new Map<String, String>();
+    String url = 'https://compvision-philipicalt.cognitiveservices.azure.com/computervision/imageanalysis:analyze?features=read&model-version=latest&language=en&api-version=2023-02-01-preview';
+    print('stateImage');
+    print(stateImagem!.name);
+    var bytes  = await stateImagem!.readAsBytes();
+    print(bytes.length);
+    var request = new http.Request("POST", Uri.parse(url))
+      ..headers['Ocp-Apim-Subscription-Key'] = "43547ca6642c41918d5de5af7d2bd5c9"
+      ..headers['Content-Type'] = "application/octet-stream"
+      ..bodyBytes = bytes;
+    var response = await http.Response.fromStream(await request.send());
+    print(request);
+    print("Result: ${response.statusCode}");
+    print(response.statusCode);
+    print(response.body);
+    String body = response.body.toLowerCase();
+
+    var carboidratos = getAllNumbers('carboidratos\\n', body);
+    if(carboidratos == 0)
+      carboidratos = getAllNumbers('carboidrato\\n', body);
+    strCarboAlimento.text = carboidratos.toString();
+
+    var proteinas = getAllNumbers('proteínas\\n', body);
+    if(proteinas == 0)
+      proteinas = getAllNumbers('proteinas\\n', body);
+    if(proteinas == 0)
+      proteinas = getAllNumbers('proteina\\n', body);
+    strProteinaAlimento.text = proteinas.toString();
+
+    var gordura = getAllNumbers('gorduras totais\\n', body);
+    if(gordura == 0)
+      gordura = getAllNumbers('gordura total\\n', body);
+    strGorduraAlimento.text = gordura.toString();
+  }
+
+  int getAllNumbers(String search, String texto){
+    int i = texto.indexOf(search) + search.length;
+    String textoNumerico = "";
+    for(;int.tryParse(texto[i]) != null; i++){
+      textoNumerico += texto[i];
+    }
+    return int.tryParse(textoNumerico) ?? 0;
+  }
+
   _openCamera(BuildContext context) async {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => TakePictureScreen(),
-            fullscreenDialog: true
+            builder: (context) => TakePictureScreen(lerImagem: lerImagem,),
+            fullscreenDialog: true,
         )
     );
   }
@@ -39,15 +84,11 @@ class _RefeicaoItemState extends State<RefeicaoItem> {
   AtualizarLista (String? texto) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     String? idUsuario = prefs.getString('currentUser');
-    print('AtualizarLista');
-    print(widget.indice);
-    print(widget.listRefeicao.length);
 
     if(widget.indice > widget.listRefeicao.length - 1) {
-      print('aqui1');
       widget.listRefeicao.add(
           Refeicao(idUsuario: idUsuario!,
-              nome: strNomeAlimento.text,
+              nome: "",
               alimento: strNomeAlimento.text,
               carbo: strCarboAlimento.text,
               proteina: strProteinaAlimento.text,
@@ -55,27 +96,11 @@ class _RefeicaoItemState extends State<RefeicaoItem> {
               data: DateTime.now()));
     }
     else {
-      print('aqui2');
-      widget.listRefeicao[widget.indice].nome = strNomeAlimento.text;
       widget.listRefeicao[widget.indice].alimento = strNomeAlimento.text;
       widget.listRefeicao[widget.indice].carbo = strCarboAlimento.text;
       widget.listRefeicao[widget.indice].proteina = strProteinaAlimento.text;
       widget.listRefeicao[widget.indice].gordura = strGorduraAlimento.text;
     }
-  }
-
-
-
-  Future<http.Response> fetchAlbum() {
-    Map<String, String> header = new Map<String, String>();
-    header['Ocp-Apim-Subscription-Key'] = '43547ca6642c41918d5de5af7d2bd5c9';
-    header['Content-Type'] = 'application/octet-stream';
-    String url = '"https://compvision-philipicalt.cognitiveservices.azure.com/computervision/imageanalysis:analyze?features=read&model-version=latest&language=en&api-version=2023-02-01-preview';
-    return http.post(
-      Uri.parse(url),
-      headers: header,
-      body: ''
-    );
   }
 
 

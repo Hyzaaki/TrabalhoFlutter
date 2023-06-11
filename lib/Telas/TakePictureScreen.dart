@@ -7,8 +7,9 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 
 class TakePictureScreen extends StatefulWidget {
-  TakePictureScreen({Key? key}) : super(key: key);
+  TakePictureScreen({Key? key, required this.lerImagem}) : super(key: key);
 
+  final Function(XFile stateImagem) lerImagem;
   @override
   TakePictureScreenState createState() => TakePictureScreenState();
 }
@@ -39,11 +40,11 @@ class TakePictureScreenState extends State<TakePictureScreen> {
     }
   }
 
-  _previewCamera(CameraDescription ca){
+  _previewCamera(CameraDescription ca) async {
     var _cameraController = new CameraController(ca, ResolutionPreset.high, enableAudio: false, imageFormatGroup: ImageFormatGroup.jpeg);
 
     try{
-      _cameraController.initialize();
+      await _cameraController.initialize();
     }
     catch(ex ){
       print('error');
@@ -70,12 +71,16 @@ class TakePictureScreenState extends State<TakePictureScreen> {
       ),
       floatingActionButton:
       (imagem != null)
-          ? FloatingActionButton.extended(onPressed: () => Navigator.pop(context), label: Text('Finalizar'),)
+          ? FloatingActionButton.extended(onPressed: _onPressedFinalizar, label: Text('Finalizar'),)
           : null,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 
+  _onPressedFinalizar(){
+    widget.lerImagem(imagem!);
+    Navigator.pop(context);
+  }
 
   _arquivoWidget(){
     return Container(
@@ -90,6 +95,9 @@ class TakePictureScreenState extends State<TakePictureScreen> {
 
   _cameraPreviewWidget(){
     print('aaaaaaa _cameraPreviewWidget');
+    print(cameraController.cameraId);
+    print(cameraController == null);
+    print(cameraController.value.isInitialized);
     final CameraController? _cameraController = cameraController;
     if(_cameraController == null || !_cameraController.value.isInitialized){
       return Text('Camera nao inizializada');
