@@ -137,6 +137,12 @@ class _TelaAddRefeicaoState extends State<TelaAddRefeicao> {
     if (idUsuario != null) {
       listRefeicao.forEach((element) async {
         element.nome = strNomeNumeroRefeicao.text;
+        print(element.nome);
+        print(element.alimento);
+        print(element.carbo);
+        print(element.gordura);
+        print(element.proteina);
+
         await FirebaseFirestore.instance
             .collection("refeicoes")
             .add(element.toJson());

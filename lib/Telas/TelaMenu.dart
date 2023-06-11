@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:teste/Telas/TelaInicial.dart';
 
 import 'TelaAddRefeicao.dart';
+import 'TelaResumo.dart';
 import 'TelaUsuario.dart';
 
 
@@ -15,7 +16,7 @@ class TelaMenu extends StatefulWidget {
 class _TelaMenuState extends State<TelaMenu> {
   int _selectedIndex = 0;
 
-  final List<Widget> _pages = [TelaInicial(), TelaUsuario()];
+  final List<Widget> _pages = [TelaInicial(), TelaResumo(), TelaUsuario()];
 
   void _onItemTapped(int index) {
     setState(() {
@@ -32,6 +33,10 @@ class _TelaMenuState extends State<TelaMenu> {
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Início',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.bar_chart),
+            label: 'Resumo',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.account_box),

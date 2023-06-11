@@ -9,6 +9,7 @@ import 'Telas/TelaLogin.dart';
 import 'Telas/TelaMenu.dart';
 import 'Telas/TelaPrincipal.dart';
 import 'Telas/TelaRedefinir.dart';
+import 'Telas/TelaResumo.dart';
 import 'Telas/TelaUsuario.dart';
 
 class Rotas {
@@ -32,6 +33,8 @@ class Rotas {
         return MaterialPageRoute(builder: (_) => TelaUsuario());
       case '/TelaMenu':
         return MaterialPageRoute(builder: (_) => TelaMenu());
+      case '/TelaResumo':
+        return MaterialPageRoute(builder: (_) => TelaResumo());
 
     /*case '/TelaEditRefeicao':
         return MaterialPageRoute(builder: (_) => TelaEditRefeicao());

@@ -120,6 +120,7 @@ class _RefeicaoItemState extends State<RefeicaoItem> {
   Widget _carboalimentotxt() {
     return TextFormField(
       controller: strCarboAlimento,
+      onChanged: AtualizarLista,
       decoration: InputDecoration(
           hintText: "Carboidratos:",
           hintStyle: TextStyle(
@@ -132,6 +133,7 @@ class _RefeicaoItemState extends State<RefeicaoItem> {
   Widget _proteinaalimentotxt() {
     return TextFormField(
       controller: strProteinaAlimento,
+      onChanged: AtualizarLista,
       decoration: InputDecoration(
           hintText: "Proteínas:",
           hintStyle: TextStyle(
@@ -144,6 +146,7 @@ class _RefeicaoItemState extends State<RefeicaoItem> {
   Widget _gorduralimentotxt() {
     return TextFormField(
       controller: strGorduraAlimento,
+      onChanged: AtualizarLista,
       decoration: InputDecoration(
           hintText: "Gordura:",
           hintStyle: TextStyle(
