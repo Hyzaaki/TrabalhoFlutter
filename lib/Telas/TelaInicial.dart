@@ -67,6 +67,17 @@ class _TelaInicialState extends State<TelaInicial> {
                 itemCount: listaRefeicoes.length,
                 itemBuilder: (BuildContext context, int index) {
                   Refeicao item = listaRefeicoes[index];
+                  double c = 0.0;
+                  double p = 0.0;
+                  double g = 0.0;
+                  //Gordura * 9
+                  //Proteina * 4
+                  //Carboidratos * 4
+                  double calorias = 0.0;
+                  c += double.tryParse(item.carbo) ?? 0;
+                  p += double.tryParse(item.proteina) ?? 0;
+                  g += double.tryParse(item.gordura) ?? 0;
+                  calorias += c * 4 + p * 4 + g * 9;
                   return Padding(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 16, vertical: 8),
@@ -85,7 +96,7 @@ class _TelaInicialState extends State<TelaInicial> {
                       ),
                       child: ListTile(
                         title: Text(item.nome),
-                        subtitle: Text('Kcal:'),
+                        subtitle: Text('Kcal: '+calorias.toString() + '|Carb: '+c.toString()+ '|Gord: '+g.toString()+ '|Prot: '+p.toString()),
                         trailing: InkWell(
                           onTap: () => _deleteRefeicao(
                             context,

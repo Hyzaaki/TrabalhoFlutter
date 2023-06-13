@@ -18,7 +18,8 @@ class TelaResumo extends StatefulWidget {
 
 class _TelaResumoState extends State<TelaResumo> {
   List<Refeicao> listaRefeicoes = [];
-  List<BarChartGroupData> barGroups = [];
+  List<BarChartGroupData> barGroupsCarboProtGord = [];
+  List<BarChartGroupData> barGroupsCalorias = [];
 
   Future listarRefeicoesUsuario() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -40,28 +41,41 @@ class _TelaResumoState extends State<TelaResumo> {
           double c = 0.0;
           double p = 0.0;
           double g = 0.0;
+          //Gordura * 9
+          //Proteina * 4
+          //Carboidratos * 4
+          double calorias = 0.0;
+
           listaRefeicoes.where((element) => element.nome == nome).toList().forEach((e) {
             c += double.tryParse(e.carbo) ?? 0;
             p += double.tryParse(e.proteina) ?? 0;
             g += double.tryParse(e.gordura) ?? 0;
+            calorias += c * 4 + p * 4 + g * 9;
           });
           print(nome);
           print(c);
           print(p);
           print(g);
-          barGroups.add(
-            generateGroupData(
+          print(calorias);
+          barGroupsCarboProtGord.add(
+            generateGroupDataCarboProtGord(
               nomes.indexOf(nome),
               c,
               p,
               g
             ),
           );
+          barGroupsCalorias.add(
+            generateGroupDataCalorias(
+                nomes.indexOf(nome),
+                calorias
+            ),
+          );
         });
 
         setState(() {
           listaRefeicoes = listaRefeicoes;
-          barGroups=barGroups;
+          barGroupsCarboProtGord=barGroupsCarboProtGord;
         });
       }
     }
@@ -78,7 +92,7 @@ class _TelaResumoState extends State<TelaResumo> {
   final quickWorkoutColor = AppColors.contentColorBlue;
   final betweenSpace = 0.2;
 
-  BarChartGroupData generateGroupData(
+  BarChartGroupData generateGroupDataCarboProtGord(
       int x,
       double carboidratos,
       double proteinas,
@@ -110,7 +124,35 @@ class _TelaResumoState extends State<TelaResumo> {
     );
   }
 
-  Widget bottomTitles(double value, TitleMeta meta) {
+  BarChartGroupData generateGroupDataCalorias(
+      int x,
+      double calorias,
+      ) {
+    return BarChartGroupData(
+      x: x,
+      groupVertically: true,
+      barRods: [
+        BarChartRodData(
+          fromY: 0,
+          toY: calorias,
+          color: pilateColor,
+          width: 5,
+        ),
+      ],
+    );
+  }
+
+  Widget bottomTitlesCarboProtGord(double value, TitleMeta meta) {
+    const style = TextStyle(fontSize: 10);
+    String text;
+    text = listaRefeicoes.map((e) => e.nome).toSet().toList()[value.toInt()] ?? 'Holder';
+    return SideTitleWidget(
+      axisSide: meta.axisSide,
+      child: Text(text, style: style),
+    );
+  }
+
+  Widget bottomTitlesCalorias(double value, TitleMeta meta) {
     const style = TextStyle(fontSize: 10);
     String text;
     text = listaRefeicoes.map((e) => e.nome).toSet().toList()[value.toInt()] ?? 'Holder';
@@ -123,13 +165,14 @@ class _TelaResumoState extends State<TelaResumo> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(24),
+      padding: const EdgeInsets.only(bottom: 0, top: 0, left: 15, right: 15),
       child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           const Text(
-            'Refeicoes',
+            'Carbo/Prot/Gord das Refeicoes',
             style: TextStyle(
               color: AppColors.contentColorBlue,
               fontSize: 16,
@@ -156,7 +199,7 @@ class _TelaResumoState extends State<TelaResumo> {
                   bottomTitles: AxisTitles(
                     sideTitles: SideTitles(
                       showTitles: true,
-                      getTitlesWidget: bottomTitles,
+                      getTitlesWidget: bottomTitlesCarboProtGord,
                       reservedSize: 20,
                     ),
                   ),
@@ -164,29 +207,47 @@ class _TelaResumoState extends State<TelaResumo> {
                 barTouchData: BarTouchData(enabled: true),
                 borderData: FlBorderData(show: false),
                 gridData: const FlGridData(show: true),
-                barGroups: barGroups,
-                extraLinesData: ExtraLinesData(
-                  horizontalLines: [
-                    HorizontalLine(
-                      y: 3.3,
-                      color: pilateColor,
-                      strokeWidth: 1,
-                      dashArray: [20, 4],
+                barGroups: barGroupsCarboProtGord,
+              ),
+            ),
+          ),
+          Divider(),
+
+          const Text(
+            'Calorias das Refeicoes',
+            style: TextStyle(
+              color: AppColors.contentColorBlue,
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 8),
+          LegendsListWidget(
+            legends: [
+              Legend('Calorias', pilateColor),
+            ],
+          ),
+          const SizedBox(height: 14),
+          AspectRatio(
+            aspectRatio: 2,
+            child: BarChart(
+              BarChartData(
+                alignment: BarChartAlignment.spaceBetween,
+                titlesData: FlTitlesData(
+                  rightTitles: const AxisTitles(),
+                  topTitles: const AxisTitles(),
+                  bottomTitles: AxisTitles(
+                    sideTitles: SideTitles(
+                      showTitles: true,
+                      getTitlesWidget: bottomTitlesCalorias,
+                      reservedSize: 20,
                     ),
-                    HorizontalLine(
-                      y: 8,
-                      color: quickWorkoutColor,
-                      strokeWidth: 1,
-                      dashArray: [20, 4],
-                    ),
-                    HorizontalLine(
-                      y: 11,
-                      color: cyclingColor,
-                      strokeWidth: 1,
-                      dashArray: [20, 4],
-                    ),
-                  ],
+                  ),
                 ),
+                barTouchData: BarTouchData(enabled: true),
+                borderData: FlBorderData(show: false),
+                gridData: const FlGridData(show: true),
+                barGroups: barGroupsCalorias,
               ),
             ),
           ),
