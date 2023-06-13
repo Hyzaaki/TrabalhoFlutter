@@ -1,5 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../Entidades/Usuario.dart';
 
 class TelaCodigoEmail extends StatefulWidget {
 
@@ -84,11 +88,52 @@ class _TelaCodigoEmailState extends State<TelaCodigoEmail> {
       ),
     );
   }
-  _validarCodigo(BuildContext context) async {
-    // FirebaseFirestore.instance.collection("refeicoes")
-    // .add(Refeicao(nome: strNomeNumeroRefeicao.text, alimento: strNomeAlimento.text, carbo: strCarboAlimento.text, proteina: strProteinaAlimento.text, gordura: strGorduraAlimento.text).toJson())
-    // .then((querySnapshot) {
-    Navigator.pushNamed(context, '/login');
-    // });
+  Future _validarCodigo(BuildContext context) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? codigo = prefs.getString('codigo');
+    String? email = prefs.getString('email');
+    if(codigo == strCodigo.text)
+      {
+        var usuarios = await FirebaseFirestore.instance
+            .collection('usuarios')
+            .where('email', isEqualTo: email)
+            .get();
+        print(usuarios.size);
+        print('aqui');
+        print(usuarios.docs.length);
+        if( usuarios!=null && usuarios.docs!=null &&usuarios.docs.isNotEmpty) {
+          var usu =  Usuario.fromJson(usuarios.docs.first.data());
+          usu.id = usuarios.docs.first.id;
+          print(usuarios.docs.first.data());
+          var usuarioSnapshot = await FirebaseFirestore.instance.collection('usuarios').doc(usu.id).get();
+          Usuario usuario = Usuario.fromJson(usuarioSnapshot.data() as Map<String, dynamic>);
+          usuario.senha = strNewPassword.text;
+          print(usuario.toJson());
+          await FirebaseFirestore.instance.collection('usuarios').doc(usu.id).set(usuario.toJson());
+          Navigator.of(context).pushNamedAndRemoveUntil('/login', (r) => false);
+        }
+      }
+    else
+      {
+        alert(context, 'Código inválido.');
+      }
+  }
+
+  alert(BuildContext context, String msg) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text("Código"),
+            content: Text(msg),
+            actions: <Widget>[
+              ElevatedButton(
+                  child: Text("Ok"),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  })
+            ],
+          );
+        });
   }
 }

@@ -59,16 +59,33 @@ class _RefeicaoItemState extends State<RefeicaoItem> {
     var gordura = getAllNumbers('gorduras totais\\n', body);
     if(gordura == 0)
       gordura = getAllNumbers('gordura total\\n', body);
+    if(gordura == 0)
+      gordura = getAllNumbers('gordura\\n', body);
+    if(gordura == 0)
+      gordura = getAllNumbers('gorduras\\n', body);
+    if(gordura == 0)
+      gordura = getAllNumbers('gordura saturada\\n', body);
+    if(gordura == 0)
+      gordura = getAllNumbers('gorduras saturadas\\n', body);
+    if(gordura == 0)
+      gordura = getAllNumbers('gordura trans\\n', body);
+    if(gordura == 0)
+      gordura = getAllNumbers('gorduras trans\\n', body);
     strGorduraAlimento.text = gordura.toString();
   }
 
   int getAllNumbers(String search, String texto){
-    int i = texto.indexOf(search) + search.length;
-    String textoNumerico = "";
-    for(;int.tryParse(texto[i]) != null; i++){
-      textoNumerico += texto[i];
+    try {
+      int i = texto.indexOf(search) + search.length;
+      String textoNumerico = "";
+      for (; int.tryParse(texto[i]) != null; i++) {
+        textoNumerico += texto[i];
+      }
+      return int.tryParse(textoNumerico) ?? 0;
     }
-    return int.tryParse(textoNumerico) ?? 0;
+    catch(ex){
+      return 0;
+    }
   }
 
   _openCamera(BuildContext context) async {
